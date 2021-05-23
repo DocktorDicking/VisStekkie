@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VisStekkie</string>
+    <string name="stekkie_naam">Stekkie naam</string>
+    <string name="stekkie_omschrijving">Stekkie omschrijving</string>
+</resources>
