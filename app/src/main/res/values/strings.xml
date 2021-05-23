@@ -2,4 +2,6 @@
     <string name="app_name">VisStekkie</string>
     <string name="stekkie_naam">Stekkie naam</string>
     <string name="stekkie_omschrijving">Stekkie omschrijving</string>
+    <string name="stekkie_toevoegen">Stekkie toevoegen</string>
+    <string name="stekkie_verwijderen">Stekkie verwijderen</string>
 </resources>
