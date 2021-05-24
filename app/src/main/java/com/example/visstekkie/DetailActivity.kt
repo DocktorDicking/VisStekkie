@@ -63,7 +63,9 @@ class DetailActivity : AppCompatActivity() {
         description.text = stekkie.description
     }
 
-    fun closeStekkieDetail(view: View) {}
+    fun closeStekkieDetail(view: View) {
+        finish()
+    }
     fun editStekkie(view: View) {}
     fun deleteStekkie(view: View) {}
 
