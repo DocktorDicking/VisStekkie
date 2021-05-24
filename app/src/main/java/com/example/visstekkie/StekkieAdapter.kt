@@ -26,7 +26,8 @@ class StekkieAdapter(
         val model: StekkieModel = modelArraylist[position]
 
         holder.stekkeName.text = model.name
-        holder.stekkieDisc.text = model.description
+        holder.stekkieDesc.text = model.description
+        holder.stekkieLoc.text = model.getLocationName(holder.stekkieLoc.context) //Get context from TV
         model.image?.let { holder.stekkieImg.setImageResource(it) }
     }
 
@@ -43,7 +44,8 @@ class StekkieAdapter(
     View.OnClickListener{
         var stekkieImg: ImageView = itemView.findViewById(R.id.stekkie_img)
         var stekkeName: TextView = itemView.findViewById(R.id.stekkie_name)
-        var stekkieDisc: TextView = itemView.findViewById(R.id.stekkie_desc)
+        var stekkieDesc: TextView = itemView.findViewById(R.id.stekkie_desc)
+        var stekkieLoc: TextView = itemView.findViewById(R.id.stekkie_loc)
 
         init {
             itemView.setOnClickListener(this)

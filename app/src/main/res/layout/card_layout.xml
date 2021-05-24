@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp">
@@ -36,10 +37,23 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/stekkie_name"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_toEndOf="@id/stekkie_img"
             android:drawablePadding="2dp"
-            android:text="@string/stekkie_omschrijving"/>
+            android:text="@string/stekkie_omschrijving"
+            android:maxLines="1"
+            android:maxLength="26"/>
+
+        <TextView
+            android:id="@+id/stekkie_loc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stekkie_desc"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/stekkie_img"
+            android:drawablePadding="2dp"
+            android:text="@string/stekkie_locatie"
+            app:drawableLeftCompat="@drawable/ic_baseline_my_location_24" />
 
         <!-- TODO: Add TV for Location and Coordinates: location, coords-->
     </RelativeLayout>

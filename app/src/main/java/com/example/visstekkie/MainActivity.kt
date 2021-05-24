@@ -52,8 +52,8 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
 
-        var stekkie = modelArray[position]
-        var intent: Intent = Intent(this@MainActivity, DetailActivity::class.java)
+        val stekkie = modelArray[position]
+        val intent = Intent(this@MainActivity, DetailActivity::class.java)
         intent.putExtra("stekkieImg", stekkie.image)
         intent.putExtra("stekkieName", stekkie.name)
         intent.putExtra("stekkieDsc", stekkie.description)
@@ -67,8 +67,8 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
      */
     fun createTestStekkies(): ArrayList<StekkieModel> {
         val spot1 = Location("dummy")
-        spot1.latitude = 52.120675
-        spot1.longitude = 5.832018
+        spot1.latitude = 52.223718
+        spot1.longitude = 4.667337
 
         val spot2 = Location("dummy")
         spot2.latitude = 52.420659
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         modelArray.add(StekkieModel("Spot1", "A lot of Carp and Bream.", R.drawable.ph150, spot1))
         modelArray.add(StekkieModel("Spot2", "Catched a bunch or Roach here.", R.drawable.ph150, spot2))
         modelArray.add(StekkieModel("Spot3", "Bream hotspot!!", R.drawable.ph150, spot2))
-        modelArray.add(StekkieModel("Spot4", "Nice and quite, have not fished here yet.", R.drawable.ph150, spot2))
+        modelArray.add(StekkieModel("Spot4", "Nice and quite, have not fished here yet.", R.drawable.ph150, spot1))
         modelArray.add(StekkieModel("Spot5", "This spot looks good due to vegitation.", R.drawable.ph150, spot2))
         modelArray.add(StekkieModel("Spot6", "Catched 2 Carps here!", R.drawable.ph150, spot2))
 
