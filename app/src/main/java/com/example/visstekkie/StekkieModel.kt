@@ -3,10 +3,10 @@ package com.example.visstekkie
 import android.location.Location
 
 class StekkieModel(
-    var name: String,
-    var description: String,
-    var image: Int,
-    var location: Location
+    var name: String?,
+    var description: String?,
+    var image: Int?,
+    var location: Location?
 )
 {
 

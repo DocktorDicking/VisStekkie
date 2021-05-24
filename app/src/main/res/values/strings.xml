@@ -4,4 +4,9 @@
     <string name="stekkie_omschrijving">Stekkie omschrijving</string>
     <string name="stekkie_toevoegen">Stekkie toevoegen</string>
     <string name="stekkie_verwijderen">Stekkie verwijderen</string>
+    <string name="sluiten">Sluiten</string>
+    <string name="aanpassen">Aanpassen</string>
+    <string name="verwijderen">Verwijderen</string>
+    <string name="edit">edit</string>
+    <string name="delete">delete</string>
 </resources>

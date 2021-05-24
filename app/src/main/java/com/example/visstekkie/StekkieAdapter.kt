@@ -1,6 +1,5 @@
 package com.example.visstekkie
 
-import android.content.Context
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
@@ -18,17 +17,17 @@ class StekkieAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
         //Inflate layout for each item of recycler view.
-        var view: View = LayoutInflater.from(parent.context).inflate(R.layout.card_layout, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.card_layout, parent, false)
         return Viewholder(view)
     }
 
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
         //To set data to textview and imageview of each card layout
-        var model: StekkieModel = modelArraylist[position]
+        val model: StekkieModel = modelArraylist[position]
 
         holder.stekkeName.text = model.name
         holder.stekkieDisc.text = model.description
-        holder.stekkieImg.setImageResource(model.image)
+        model.image?.let { holder.stekkieImg.setImageResource(it) }
     }
 
     override fun getItemCount(): Int {

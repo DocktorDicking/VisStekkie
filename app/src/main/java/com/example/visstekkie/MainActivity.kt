@@ -1,5 +1,6 @@
 package com.example.visstekkie
 
+import android.content.Intent
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -50,9 +51,18 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
 
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
+
+        var stekkie = modelArray[position]
+        var intent: Intent = Intent(this@MainActivity, DetailActivity::class.java)
+        intent.putExtra("stekkieImg", stekkie.image)
+        intent.putExtra("stekkieName", stekkie.name)
+        intent.putExtra("stekkieDsc", stekkie.description)
+        intent.putExtra("stekkieLong", stekkie.location?.longitude)
+        intent.putExtra("stekkieLat", stekkie.location?.latitude)
+        startActivity(intent)
     }
 
-    /**
+    /**2
      * Test stekkies
      */
     fun createTestStekkies(): ArrayList<StekkieModel> {
