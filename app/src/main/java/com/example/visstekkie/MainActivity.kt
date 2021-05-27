@@ -40,8 +40,10 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         val index = modelArray.size
         val newStekkie = StekkieModel(
             "Spot${modelArray.size}",
-            "Test description",            R.drawable.ph150,
-            Location("dummy")
+            "Test description",
+                R.drawable.ph150,
+            0.0,
+                0.0
         )
 
         modelArray.add(index, newStekkie)
@@ -54,11 +56,12 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
 
         val stekkie = modelArray[position]
         val intent = Intent(this@MainActivity, DetailActivity::class.java)
-        intent.putExtra("stekkieImg", stekkie.image)
-        intent.putExtra("stekkieName", stekkie.name)
-        intent.putExtra("stekkieDsc", stekkie.description)
-        intent.putExtra("stekkieLong", stekkie.location?.longitude)
-        intent.putExtra("stekkieLat", stekkie.location?.latitude)
+//        intent.putExtra("stekkieImg", stekkie.image)
+//        intent.putExtra("stekkieName", stekkie.name)
+//        intent.putExtra("stekkieDsc", stekkie.description)
+//        intent.putExtra("stekkieLong", stekkie.location?.longitude)
+//        intent.putExtra("stekkieLat", stekkie.location?.latitude)
+        intent.putExtra("stekkie", stekkie)
         startActivity(intent)
     }
 
@@ -66,21 +69,20 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
      * Test stekkies
      */
     fun createTestStekkies(): ArrayList<StekkieModel> {
-        val spot1 = Location("dummy")
-        spot1.latitude = 52.223718
-        spot1.longitude = 4.667337
+        //TODO Fetch stekkies from firebase or something else that haves stekkies...
+        val spot1latitude = 52.223718
+        val spot1longitude = 4.667337
 
-        val spot2 = Location("dummy")
-        spot2.latitude = 52.420659
-        spot2.longitude = 6.316734
+        val spot2latitude = 52.420659
+        val spot2longitude = 6.316734
 
         val modelArray: ArrayList<StekkieModel> = ArrayList()
-        modelArray.add(StekkieModel("Spot1", "A lot of Carp and Bream.", R.drawable.ph150, spot1))
-        modelArray.add(StekkieModel("Spot2", "Catched a bunch or Roach here.", R.drawable.ph150, spot2))
-        modelArray.add(StekkieModel("Spot3", "Bream hotspot!!", R.drawable.ph150, spot2))
-        modelArray.add(StekkieModel("Spot4", "Nice and quite, have not fished here yet.", R.drawable.ph150, spot1))
-        modelArray.add(StekkieModel("Spot5", "This spot looks good due to vegitation.", R.drawable.ph150, spot2))
-        modelArray.add(StekkieModel("Spot6", "Catched 2 Carps here!", R.drawable.ph150, spot2))
+        modelArray.add(StekkieModel("Spot1", "A lot of Carp and Bream.", R.drawable.ph150, spot1latitude, spot1longitude))
+        modelArray.add(StekkieModel("Spot2", "Catched a bunch or Roach here.", R.drawable.ph150, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot3", "Bream hotspot!!", R.drawable.ph150, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot4", "Nice and quite, have not fished here yet.", R.drawable.ph150, spot1latitude, spot1longitude))
+        modelArray.add(StekkieModel("Spot5", "This spot looks good due to vegitation.", R.drawable.ph150, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot6", "Catched 2 Carps here!", R.drawable.ph150, spot2latitude, spot2longitude))
 
         return modelArray
     }

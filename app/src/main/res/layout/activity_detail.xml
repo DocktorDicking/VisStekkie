@@ -33,6 +33,16 @@
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/stekkie_loc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/darker_gray"
+            android:drawablePadding="2dp"
+            android:text="@string/stekkie_locatie"
+            app:drawableLeftCompat="@drawable/ic_baseline_my_location_24" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/stekkie_desc"

@@ -3,14 +3,15 @@ package com.example.visstekkie
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
+import java.io.Serializable
 
-class StekkieModel(
+class StekkieModel (
     var name: String?,
     var description: String?,
     var image: Int?,
-    var location: Location?
-)
+    var latitude: Double,
+    var longitude: Double
+) : Serializable
 {
 
     /**
@@ -21,14 +22,14 @@ class StekkieModel(
         val geocoder = Geocoder(context)
 
         if (util.hasInternetAccess(context)) {
-            val list: List<Address> =  geocoder.getFromLocation(location!!.latitude, location!!.longitude, 1)
+            val list: List<Address> =  geocoder.getFromLocation(latitude, longitude, 1)
             if (list.isNotEmpty()) {
                 val address = list[0]
                 return address.locality
             }
-            return "${location!!.latitude}, ${location!!.longitude}"
+            return "$latitude, $longitude"
         }
-        return "${location!!.latitude}, ${location!!.longitude}"
+        return "$latitude, $longitude"
     }
     //TODO think about a way to save this (toString?) to a database.
 }
