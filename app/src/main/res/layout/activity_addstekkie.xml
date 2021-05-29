@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AddStekkieActivity">
 
-    <LinearLayout
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/LinLay_one"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -32,6 +32,15 @@
             android:id="@+id/stekkie_img"
             android:scaleType="centerCrop"
             android:src="@drawable/ph150"/>
+        <TextView
+            android:id="@+id/stekkie_loc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/darker_gray"
+            android:drawablePadding="2dp"
+            android:text="@string/stekkie_locatie"
+            app:drawableLeftCompat="@drawable/ic_baseline_my_location_24" />
 
         <EditText
             android:id="@+id/stekkie_name"

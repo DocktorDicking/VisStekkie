@@ -35,20 +35,13 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
      */
     fun createStekkie(view: View) {
         //TODO change to actually using a form and the camera
+        Toast.makeText(this, "CreateStekkie called", Toast.LENGTH_SHORT).show()
 
-        //new index for the new stekkie
-        val index = modelArray.size
-        val newStekkie = StekkieModel(
-            "Spot${modelArray.size}",
-            "Test description",
-                R.drawable.ph150,
-            0.0,
-                0.0
-        )
+        val intent = Intent(this@MainActivity, AddStekkieActivity::class.java)
+        startActivity(intent)
 
-        modelArray.add(index, newStekkie)
-        stekkieAdapter.notifyItemInserted(index)
-        Toast.makeText(this, "New Stekkie has been added", Toast.LENGTH_SHORT).show()
+//        stekkieAdapter.notifyItemInserted(index)
+        Toast.makeText(this, "CreateStekkie finished", Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemClick(position: Int) {
@@ -56,11 +49,6 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
 
         val stekkie = modelArray[position]
         val intent = Intent(this@MainActivity, DetailActivity::class.java)
-//        intent.putExtra("stekkieImg", stekkie.image)
-//        intent.putExtra("stekkieName", stekkie.name)
-//        intent.putExtra("stekkieDsc", stekkie.description)
-//        intent.putExtra("stekkieLong", stekkie.location?.longitude)
-//        intent.putExtra("stekkieLat", stekkie.location?.latitude)
         intent.putExtra("stekkie", stekkie)
         startActivity(intent)
     }

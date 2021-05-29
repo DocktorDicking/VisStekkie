@@ -30,33 +30,6 @@ class DetailActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "OOPS! Something went wrong ):", Toast.LENGTH_SHORT).show()
         }
-
-
-
-
-//        if (intent.hasExtra("stekkieImg")
-//                && intent.hasExtra("stekkieName")
-//                && intent.hasExtra("stekkieDsc")
-//                && intent.hasExtra("stekkieLong")
-//                && intent.hasExtra("stekkieLat")) {
-//
-//            Log.d(TAG, "getIncommingIntent: found intent extras.")
-//
-//            val stekkieLoc = Location("Dummy")
-//            stekkieLoc.longitude = intent.getDoubleExtra("stekkieLong", 0.0)
-//            stekkieLoc.latitude = intent.getDoubleExtra("stekkieLat", 0.0)
-//
-//            val stekkie = StekkieModel(
-//                    intent.getStringExtra("stekkieName"),
-//                    intent.getStringExtra("stekkieDsc"),
-//                    intent.getIntExtra("stekkieImg", 0),
-//                    stekkieLoc
-//            )
-//
-//            setStekkieData(stekkie)
-//        } else {
-//            Toast.makeText(this, "OOPS! Something went wrong ):", Toast.LENGTH_SHORT).show()
-//        }
     }
 
     private fun setStekkieData(stekkie: StekkieModel) {
