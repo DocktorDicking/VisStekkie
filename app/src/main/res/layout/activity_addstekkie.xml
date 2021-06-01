@@ -31,7 +31,8 @@
             android:layout_weight="60"
             android:id="@+id/stekkie_img"
             android:scaleType="centerCrop"
-            android:src="@drawable/ph150"/>
+            android:layerType="software"
+            android:src="@drawable/phfishing"/>
         <TextView
             android:id="@+id/stekkie_loc"
             android:layout_width="match_parent"

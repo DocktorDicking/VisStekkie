@@ -17,7 +17,7 @@
             android:layout_margin="10dp"
             android:contentDescription="@string/app_name"
             android:padding="5dp"
-            android:src="@drawable/ph150" />
+            android:src="@drawable/phfishing" />
 
         <TextView
             android:id="@+id/stekkie_name"

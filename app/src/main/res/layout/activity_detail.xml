@@ -19,7 +19,7 @@
             android:layout_weight="60"
             android:id="@+id/stekkie_img"
             android:scaleType="centerCrop"
-            android:src="@drawable/ph150"/>
+            android:src="@drawable/phfishing"/>
 
         <TextView
             android:layout_width="wrap_content"
