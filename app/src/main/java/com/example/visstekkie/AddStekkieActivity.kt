@@ -1,5 +1,6 @@
 package com.example.visstekkie
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,6 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +18,12 @@ import androidx.appcompat.app.AppCompatActivity
 class AddStekkieActivity : AppCompatActivity() {
     private val TAG = "AddStekkieActivity"
     private val newStekkie = StekkieModel("", "", 0, 0.0, 0.0)
+
+    //Views in the layout
     private lateinit var stekkieLoc: TextView
     private lateinit var stekkieImg: ImageView
+    private lateinit var stekkieName: EditText
+    private lateinit var stekkieDesc: EditText
 
     private val IMAGE_CAPTURE_CODE = 1001
     private var picBitMap: Bitmap? = null
@@ -26,12 +32,15 @@ class AddStekkieActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addstekkie)
+
+        //Get views from layout
         stekkieImg = findViewById(R.id.stekkie_img)
         stekkieLoc = findViewById(R.id.stekkie_loc)
+        stekkieName = findViewById(R.id.stekkie_name)
+        stekkieDesc = findViewById(R.id.stekkie_desc)
 
-        Log.d(TAG, "onCreate: has started.")
         setStekkieLocation()
-//        getIncommingIntent()
+        Log.d(TAG, "onCreate: has started, location has been set.")
     }
 
     /**
@@ -116,7 +125,7 @@ class AddStekkieActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //called when image was captured from camera intent
-        if (requestCode == IMAGE_CAPTURE_CODE){
+        if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK){
             picBitMap = data?.getParcelableExtra("data")
 
             //set image captured to image view
@@ -126,10 +135,11 @@ class AddStekkieActivity : AppCompatActivity() {
     }
 
     /**
-     *
+     * Creates a new StekkieModel and adds the data from addStekkieActivity to the model.
      */
     fun createStekkie(view: View) {
-        //TODO
+        var newStekkie: StekkieModel = StekkieModel("", "", 0, 0.0,0.0)
+
     }
 
 
