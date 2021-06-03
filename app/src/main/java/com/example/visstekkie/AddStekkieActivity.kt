@@ -6,7 +6,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -14,10 +16,15 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddStekkieActivity : AppCompatActivity() {
     private val TAG = "AddStekkieActivity"
-    private val newStekkie = StekkieModel("", "", 0, 0.0, 0.0)
+    private var newStekkie = StekkieModel(null, null, null, null, 0.0, 0.0)
 
     //Views in the layout
     private lateinit var stekkieLoc: TextView
@@ -25,8 +32,8 @@ class AddStekkieActivity : AppCompatActivity() {
     private lateinit var stekkieName: EditText
     private lateinit var stekkieDesc: EditText
 
+    //Variables used by camera intent
     private val IMAGE_CAPTURE_CODE = 1001
-    private var picBitMap: Bitmap? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +58,9 @@ class AddStekkieActivity : AppCompatActivity() {
      */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        Log.d(TAG, "onSaveInstanceState: I know da wea")
         //Save bitmap (containing img) to outState
-        outState.putParcelable("picBitMap", picBitMap)
+        outState.putSerializable("newStekkie", newStekkie)
     }
 
     /**
@@ -60,15 +68,12 @@ class AddStekkieActivity : AppCompatActivity() {
      */
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+        Log.d(TAG, "onRestoreInstanceState: Do you know da wae?")
 
         //Check if picBitMap is set in SavedInstanceState
-        if (savedInstanceState.get("picBitMap") != null) {
-            picBitMap = savedInstanceState.get("picBitMap") as Bitmap?
-            stekkieImg.setImageBitmap(picBitMap)
-        }
-
-        if (picBitMap != null) {
-            stekkieImg.setImageBitmap(picBitMap)
+        if (savedInstanceState.get("newStekkie") != null) {
+            newStekkie = savedInstanceState.get("newStekkie") as StekkieModel
+            setImage(newStekkie)
         }
     }
 
@@ -109,14 +114,55 @@ class AddStekkieActivity : AppCompatActivity() {
         finish()
     }
 
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+                "JPEG_${timeStamp}_", /* prefix */
+                ".jpg", /* suffix */
+                storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            newStekkie.imagePath = absolutePath
+        }
+    }
+
+
     /**
      * Activates the intent to create a picture which also calls for functions to
      * set the image to the ImageView.
      */
     fun addPhoto(view: View) {
         //Open default camera intent to make a picture
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { cameraIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            cameraIntent.resolveActivity(packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    Log.d(TAG, "addPhoto: IOException thrown!")
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI = FileProvider.getUriForFile(
+                            this,
+                            "com.example.android.fileprovider",
+                            it
+                    )
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+                }
+            }
+        }
+
     }
 
     /**
@@ -126,11 +172,20 @@ class AddStekkieActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         //called when image was captured from camera intent
         if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK){
-            picBitMap = data?.getParcelableExtra("data")
+            setImage(newStekkie)
+            //TODO Image in view is sideways >.>
 
             //set image captured to image view
-            stekkieImg.setImageBitmap(picBitMap)
             Log.d(TAG, "onActivityResult: Image set.")
+        }
+    }
+
+    /**
+     * Simple setter method to reuse in multiple methods in this class.
+     */
+    private fun setImage(stekkie: StekkieModel) {
+        if (stekkie.imagePath != null) {
+            stekkieImg.setImageURI(stekkie.getImagePathUri())
         }
     }
 
@@ -138,8 +193,8 @@ class AddStekkieActivity : AppCompatActivity() {
      * Creates a new StekkieModel and adds the data from addStekkieActivity to the model.
      */
     fun createStekkie(view: View) {
-        var newStekkie: StekkieModel = StekkieModel("", "", 0, 0.0,0.0)
-
+//        var newStekkie: StekkieModel = StekkieModel("", "", 0, 0.0,0.0)
+        //TODO
     }
 
 

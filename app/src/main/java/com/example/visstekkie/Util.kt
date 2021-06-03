@@ -2,6 +2,7 @@ package com.example.visstekkie
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Uri
 
 class Util {
 
@@ -20,5 +21,13 @@ class Util {
             }
         }
         return false
+    }
+
+    /**
+     * Get's the Url (absolute path) of a android.resource file.
+     */
+    fun getURLForResource(resourceId: Int): String {
+        //TODO TEST BEFORE USE, MIGHT NOT WORK (:
+        return Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/" + resourceId).toString()
     }
 }

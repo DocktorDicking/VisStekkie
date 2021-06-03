@@ -4,12 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.widget.ActivityChooserView
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +32,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         stekkieRv.layoutManager = llm
         stekkieRv.adapter = stekkieAdapter
 
-        //TODO check for all permissions on start.
+        //TODO test if this goes well on diffrent SDK versions. (Emulator)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 111)
         }
@@ -100,12 +97,12 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         val spot2longitude = 6.316734
 
         val modelArray: ArrayList<StekkieModel> = ArrayList()
-        modelArray.add(StekkieModel("Spot1", "A lot of Carp and Bream.", R.drawable.ph150, spot1latitude, spot1longitude))
-        modelArray.add(StekkieModel("Spot2", "Catched a bunch or Roach here.", R.drawable.ph150, spot2latitude, spot2longitude))
-        modelArray.add(StekkieModel("Spot3", "Bream hotspot!!", R.drawable.ph150, spot2latitude, spot2longitude))
-        modelArray.add(StekkieModel("Spot4", "Nice and quite, have not fished here yet.", R.drawable.ph150, spot1latitude, spot1longitude))
-        modelArray.add(StekkieModel("Spot5", "This spot looks good due to vegitation.", R.drawable.ph150, spot2latitude, spot2longitude))
-        modelArray.add(StekkieModel("Spot6", "Catched 2 Carps here!", R.drawable.ph150, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot1", "A lot of Carp and Bream.", R.drawable.ph150, null, spot1latitude, spot1longitude))
+        modelArray.add(StekkieModel("Spot2", "Catched a bunch or Roach here.", R.drawable.ph150, null, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot3", "Bream hotspot!!", R.drawable.ph150, null, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot4", "Nice and quite, have not fished here yet.", R.drawable.ph150, null, spot1latitude, spot1longitude))
+        modelArray.add(StekkieModel("Spot5", "This spot looks good due to vegitation.", R.drawable.ph150, null, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot6", "Catched 2 Carps here!", R.drawable.ph150, null, spot2latitude, spot2longitude))
 
         return modelArray
     }

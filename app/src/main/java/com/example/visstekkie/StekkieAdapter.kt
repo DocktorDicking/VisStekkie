@@ -1,11 +1,13 @@
 package com.example.visstekkie
 
+import android.net.Uri
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import android.widget.ImageView
 import android.view.View
 import android.view.ViewGroup
+import java.io.File
 
 /**
  * Default adapter class for the RecyclesView
@@ -23,12 +25,17 @@ class StekkieAdapter(
 
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
         //To set data to textview and imageview of each card layout
-        val model: StekkieModel = modelArraylist[position]
+        val stekkie: StekkieModel = modelArraylist[position]
 
-        holder.stekkeName.text = model.name
-        holder.stekkieDesc.text = model.description
-        holder.stekkieLoc.text = model.getLocationName(holder.stekkieLoc.context) //Get context from TV
-        model.image?.let { holder.stekkieImg.setImageResource(it) }
+        holder.stekkeName.text = stekkie.name
+        holder.stekkieDesc.text = stekkie.description
+        holder.stekkieLoc.text = stekkie.getLocationName(holder.stekkieLoc.context) //Get context from TV
+
+        if (stekkie.imagePath != null) {
+            holder.stekkieImg.setImageURI(stekkie.getImagePathUri())
+        } else {
+            holder.stekkieImg.setImageResource(R.drawable.ph150)
+        }
     }
 
     override fun getItemCount(): Int {

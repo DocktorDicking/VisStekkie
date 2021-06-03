@@ -36,7 +36,11 @@ class DetailActivity : AppCompatActivity() {
         Log.d(TAG, "setStekkieData: Setting details data for Stekkie")
 
         val image: ImageView = findViewById(R.id.stekkie_img)
-        stekkie.image?.let { image.setImageResource(it) }
+        if (stekkie.imagePath != null) {
+            image.setImageURI(stekkie.getImagePathUri())
+        } else {
+            image.setImageResource(R.drawable.ph150)
+        }
 
         val name: TextView = findViewById(R.id.stekkie_name)
         name.text = stekkie.name
@@ -53,5 +57,4 @@ class DetailActivity : AppCompatActivity() {
     }
     fun editStekkie(view: View) {}
     fun deleteStekkie(view: View) {}
-
 }
