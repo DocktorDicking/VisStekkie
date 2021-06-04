@@ -1,13 +1,11 @@
 package com.example.visstekkie
 
-import android.net.Uri
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import android.widget.ImageView
 import android.view.View
 import android.view.ViewGroup
-import java.io.File
 
 /**
  * Default adapter class for the RecyclesView
