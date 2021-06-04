@@ -37,7 +37,7 @@ class DetailActivity : AppCompatActivity() {
 
         val image: ImageView = findViewById(R.id.stekkie_img)
         if (stekkie.imagePath != null) {
-            image.setImageURI(stekkie.getImagePathUri())
+            image.setImageURI(stekkie.getImagePathUri()) //TODO change this to use GLide? or something less memorry consuming
         } else {
             image.setImageResource(R.drawable.ph150)
         }

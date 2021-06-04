@@ -1,6 +1,7 @@
 package com.example.visstekkie
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.location.Location
@@ -24,7 +25,7 @@ class AddStekkieActivity : AppCompatActivity() {
     private val TAG = "AddStekkieActivity"
 
     //new model
-    private var newStekkie = StekkieModel(null, null,  null, 0.0, 0.0)
+    private var newStekkie = StekkieModel(null, null, null, 0.0, 0.0)
 
     //Views in the layout
     private lateinit var stekkieLoc: TextView
@@ -86,7 +87,7 @@ class AddStekkieActivity : AppCompatActivity() {
     private fun setStekkieLocation() {
         //Tap into GPS sensor
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val providers: List<String> =  locationManager.getProviders(true)
+        val providers: List<String> = locationManager.getProviders(true)
         var location: Location? = null
 
         //Check all providers if they have a value for location
@@ -177,7 +178,7 @@ class AddStekkieActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //called when image was captured from camera intent
-        if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK) {
             if (newStekkie.imagePath != null) {
                 stekkieImg.setImageURI(newStekkie.getImagePathUri())
             }
@@ -192,9 +193,44 @@ class AddStekkieActivity : AppCompatActivity() {
      * Creates a new StekkieModel and adds the data from addStekkieActivity to the model.
      */
     fun createStekkie(view: View) {
-//        var newStekkie: StekkieModel = StekkieModel("", "", 0, 0.0,0.0)
-        //TODO
+        fun returnResult() { //nested to reuse
+            val intent = Intent()
+            intent.putExtra("data", newStekkie)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+
+        val checkmap = hashMapOf(
+                "name" to false,
+                "desc" to false,
+                "image" to false
+        )
+
+        //Get values from EditText in the layout
+        if (!stekkieName.text.isNullOrEmpty()) {
+            newStekkie.name = stekkieName.text.toString()
+            checkmap["name"] = true
+        }
+        if (!stekkieDesc.text.isNullOrEmpty()) {
+            newStekkie.description = stekkieDesc.text.toString()
+            checkmap["desc"] = true
+        }
+        if (!newStekkie.imagePath.isNullOrEmpty()) {
+            checkmap["image"] = true
+        }
+
+        if (checkmap.containsValue(false)) {
+            //check if all values have been set, show confirmation when this is not the case (y/n)
+            val builder = AlertDialog.Builder(stekkieName.context)
+            builder.setTitle("Let op! Je stekkie is niet af!")
+            builder.setMessage("Niet alle velden van jou prachtige stekkie zijn ingevuld. " +
+                    "Weet je zeker dat je jou stekkie nu wilt opslaan?\n " +
+                    "Wees gerust, je kan jou stekkie altijd bewerken.")
+            builder.setPositiveButton("Stekkie opslaan!") { dialog, which -> returnResult() }
+            builder.setNegativeButton("Terug") { dialog, which -> dialog.dismiss() }
+            builder.show()
+        }
+
+        returnResult()
     }
-
-
 }
