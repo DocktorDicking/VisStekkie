@@ -22,6 +22,8 @@ import java.util.*
 
 class AddStekkieActivity : AppCompatActivity() {
     private val TAG = "AddStekkieActivity"
+
+    //new model
     private var newStekkie = StekkieModel(null, null, null, null, 0.0, 0.0)
 
     //Views in the layout
@@ -38,7 +40,7 @@ class AddStekkieActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addstekkie)
 
-        //Get views from layout
+        //init views from layout
         stekkieImg = findViewById(R.id.stekkie_img)
         stekkieLoc = findViewById(R.id.stekkie_loc)
         stekkieName = findViewById(R.id.stekkie_name)
@@ -57,7 +59,8 @@ class AddStekkieActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d(TAG, "onSaveInstanceState: I know da wea")
-        //Save bitmap (containing img) to outState
+
+        //Save model state
         outState.putSerializable("newStekkie", newStekkie)
     }
 
@@ -68,10 +71,12 @@ class AddStekkieActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         Log.d(TAG, "onRestoreInstanceState: Do you know da wae?")
 
-        //Check if picBitMap is set in SavedInstanceState
+        //Get the active model state
         if (savedInstanceState.get("newStekkie") != null) {
             newStekkie = savedInstanceState.get("newStekkie") as StekkieModel
-            setImage(newStekkie)
+            if (newStekkie.imagePath != null) {
+                stekkieImg.setImageURI(newStekkie.getImagePathUri())
+            }
         }
     }
 
@@ -112,6 +117,10 @@ class AddStekkieActivity : AppCompatActivity() {
         finish()
     }
 
+    /**
+     * Create a file to save the Image to (photo taken with camera). File is saved in External
+     * storage which is private to this application.
+     */
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
@@ -122,7 +131,7 @@ class AddStekkieActivity : AppCompatActivity() {
                 ".jpg", /* suffix */
                 storageDir /* directory */
         ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
+            //Get the absolute path and save it in the model
             newStekkie.imagePath = absolutePath
         }
     }
@@ -131,12 +140,11 @@ class AddStekkieActivity : AppCompatActivity() {
     /**
      * Activates the intent to create a picture which also calls for functions to
      * set the image to the ImageView.
+     *
+     * Source: Android documentation
      */
     fun addPhoto(view: View) {
-        //Open default camera intent to make a picture
-//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
-
+        //Camera intent
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { cameraIntent ->
             // Ensure that there's a camera activity to handle the intent
             cameraIntent.resolveActivity(packageManager)?.also {
@@ -164,26 +172,19 @@ class AddStekkieActivity : AppCompatActivity() {
     }
 
     /**
-     * Get's called by Android when user takes picture.
+     * Android goes into this method when 'startActivityForResult' is called.
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //called when image was captured from camera intent
         if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK){
-            setImage(newStekkie)
+            if (newStekkie.imagePath != null) {
+                stekkieImg.setImageURI(newStekkie.getImagePathUri())
+            }
             //TODO Image in view is sideways >.>
 
             //set image captured to image view
             Log.d(TAG, "onActivityResult: Image set.")
-        }
-    }
-
-    /**
-     * Simple setter method to reuse in multiple methods in this class.
-     */
-    private fun setImage(stekkie: StekkieModel) {
-        if (stekkie.imagePath != null) {
-            stekkieImg.setImageURI(stekkie.getImagePathUri())
         }
     }
 
