@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         //Creating a default layout manager for the recyclerview
         val llm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        //Binding the llm and adapeter to the recyclerview
+        //Binding the llm and adapter to the recyclerview
         stekkieRv.layoutManager = llm
         stekkieRv.adapter = stekkieAdapter
 

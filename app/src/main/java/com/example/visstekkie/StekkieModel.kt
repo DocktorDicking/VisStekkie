@@ -10,7 +10,6 @@ import java.io.Serializable
 class StekkieModel(
     var name: String?,
     var description: String?,
-    var image: Int?, //TODO change this to string. We want to save Uri.toString() instead.
     var imagePath: String?,
     var latitude: Double,
     var longitude: Double
@@ -44,5 +43,4 @@ class StekkieModel(
         }
         return null
     }
-    //TODO think about a way to save this (toString?) to a database.
 }
