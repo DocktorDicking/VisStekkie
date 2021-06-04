@@ -24,7 +24,7 @@ class AddStekkieActivity : AppCompatActivity() {
     private val TAG = "AddStekkieActivity"
 
     //new model
-    private var newStekkie = StekkieModel(null, null, null, null, 0.0, 0.0)
+    private var newStekkie = StekkieModel(null, null,  null, 0.0, 0.0)
 
     //Views in the layout
     private lateinit var stekkieLoc: TextView

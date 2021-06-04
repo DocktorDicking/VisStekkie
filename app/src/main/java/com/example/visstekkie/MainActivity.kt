@@ -97,12 +97,12 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         val spot2longitude = 6.316734
 
         val modelArray: ArrayList<StekkieModel> = ArrayList()
-        modelArray.add(StekkieModel("Spot1", "A lot of Carp and Bream.", R.drawable.ph150, null, spot1latitude, spot1longitude))
-        modelArray.add(StekkieModel("Spot2", "Catched a bunch or Roach here.", R.drawable.ph150, null, spot2latitude, spot2longitude))
-        modelArray.add(StekkieModel("Spot3", "Bream hotspot!!", R.drawable.ph150, null, spot2latitude, spot2longitude))
-        modelArray.add(StekkieModel("Spot4", "Nice and quite, have not fished here yet.", R.drawable.ph150, null, spot1latitude, spot1longitude))
-        modelArray.add(StekkieModel("Spot5", "This spot looks good due to vegitation.", R.drawable.ph150, null, spot2latitude, spot2longitude))
-        modelArray.add(StekkieModel("Spot6", "Catched 2 Carps here!", R.drawable.ph150, null, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot1", "A lot of Carp and Bream.", null, spot1latitude, spot1longitude))
+        modelArray.add(StekkieModel("Spot2", "Catched a bunch or Roach here.", null, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot3", "Bream hotspot!!", null, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot4", "Nice and quite, have not fished here yet.", null, spot1latitude, spot1longitude))
+        modelArray.add(StekkieModel("Spot5", "This spot looks good due to vegitation.", null, spot2latitude, spot2longitude))
+        modelArray.add(StekkieModel("Spot6", "Catched 2 Carps here!", null, spot2latitude, spot2longitude))
 
         return modelArray
     }
