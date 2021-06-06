@@ -192,7 +192,6 @@ class AddStekkieActivity : AppCompatActivity() {
             if (newStekkie.imagePath != null) {
                 Glide.with(stekkieImg.context).load(newStekkie.getImagePathUri()).apply(options).into(stekkieImg)
             }
-            //TODO Image in view is sideways >.>
 
             //set image captured to image view
             Log.d(TAG, "onActivityResult: Image set.")

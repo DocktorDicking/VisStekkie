@@ -7,14 +7,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
 class DetailActivity : AppCompatActivity() {
     private val TAG = "DetailActivity"
+
+    //Options used by Glide when inserting images into the view
+    private lateinit var options: RequestOptions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         Log.d(TAG, "onCreate: has started.")
+
+        options = RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ph150)
+                .error(R.drawable.ph150)
 
         getIncommingIntent()
     }
@@ -37,9 +47,9 @@ class DetailActivity : AppCompatActivity() {
 
         val image: ImageView = findViewById(R.id.stekkie_img)
         if (stekkie.imagePath != null) {
-            image.setImageURI(stekkie.getImagePathUri()) //TODO change this to use GLide? or something less memorry consuming
+            Glide.with(image.context).load(stekkie.getImagePathUri()).apply(options).into(image)
         } else {
-            image.setImageResource(R.drawable.ph150)
+            Glide.with(image.context).load(R.drawable.ph150).apply(options).into(image)
         }
 
         val name: TextView = findViewById(R.id.stekkie_name)
