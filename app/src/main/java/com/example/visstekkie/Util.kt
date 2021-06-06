@@ -4,6 +4,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 
 class Util {
+    val REQ_CREATE_STEKKIE = 123
+    val REQ_UPDATE_STEKKIE = 321
+    val REQ_DETAIL_ACTIVITY = 111
+
+    val ACT_DELETE = 999
+    val ACT_UPDATE = 201
 
     /**
      * Checks if device haves an active internet connection by looking into activeNetwork.

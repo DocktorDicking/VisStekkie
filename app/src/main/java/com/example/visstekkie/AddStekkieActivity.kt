@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AddStekkieActivity : AppCompatActivity() {
+    private val util: Util = Util()
     private val TAG = "AddStekkieActivity"
 
     //new model
@@ -57,8 +58,10 @@ class AddStekkieActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ph150)
                 .error(R.drawable.ph150)
 
-        setStekkieLocation()
-        Log.d(TAG, "onCreate: has started, location has been set.")
+        when (intent.getIntExtra("requestCode", util.REQ_CREATE_STEKKIE)) {
+            util.REQ_CREATE_STEKKIE -> setStekkieLocation()
+            util.REQ_UPDATE_STEKKIE -> loadStekkie()
+        }
     }
 
     /**
@@ -86,7 +89,7 @@ class AddStekkieActivity : AppCompatActivity() {
         if (savedInstanceState.get("newStekkie") != null) {
             newStekkie = savedInstanceState.get("newStekkie") as StekkieModel
             if (newStekkie.imagePath != null) {
-                Glide.with(stekkieImg.context).load(newStekkie.getImagePathUri()).apply(options).into(stekkieImg)
+                setLayoutImage()
             }
         }
     }
@@ -120,6 +123,34 @@ class AddStekkieActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * When user is updating a stekkie, this method will load all stekkie data into the layout
+     */
+    private fun loadStekkie() {
+        newStekkie = intent.getSerializableExtra("data") as StekkieModel
+        stekkieName.setText(newStekkie.name)
+        stekkieDesc.setText(newStekkie.description)
+        stekkieLoc.text = newStekkie.getLocationName(stekkieLoc.context)
+        setLayoutImage()
+        updateStekkieLocation()
+    }
+
+    /**
+     * Dialog to update location when this intent get's opened with resultCode UPDATE_STEKKIE
+     */
+    private fun updateStekkieLocation() {
+        //check if all values have been set, show confirmation when this is not the case (y/n)
+        val builder = AlertDialog.Builder(stekkieName.context)
+        builder.setTitle("Locatie bijwerken?")
+        builder.setMessage("Wil je de locatie van je stekkie bijwerken naar jou huidige locatie?")
+        builder.setPositiveButton("Locatie bijwerken") { dialog, which -> setStekkieLocation()}
+        builder.setNegativeButton("Terug") { dialog, which -> dialog.dismiss() }
+        builder.show()
+    }
+
+    private fun setLayoutImage() {
+        Glide.with(stekkieImg.context).load(newStekkie.getImagePathUri()).apply(options).into(stekkieImg)
+    }
 
     /**
      * Closes this intent
@@ -190,7 +221,7 @@ class AddStekkieActivity : AppCompatActivity() {
         //called when image was captured from camera intent
         if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK) {
             if (newStekkie.imagePath != null) {
-                Glide.with(stekkieImg.context).load(newStekkie.getImagePathUri()).apply(options).into(stekkieImg)
+                setLayoutImage()
             }
 
             //set image captured to image view

@@ -7,13 +7,13 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
-    private val CREATE_STEKKIE = 123
-    private val DETAIL_ACTIVITY = 111
+    private val util: Util = Util()
 
     //Test data
     private val modelArray: ArrayList<StekkieModel> = createTestStekkies()
@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
      */
     fun createStekkie(view: View) {
         val intent = Intent(this@MainActivity, AddStekkieActivity::class.java)
-        startActivityForResult(intent, CREATE_STEKKIE)
+        intent.putExtra("requestCode", util.REQ_CREATE_STEKKIE)
+        startActivityForResult(intent, util.REQ_CREATE_STEKKIE)
     }
 
     /**
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         val intent = Intent(this@MainActivity, DetailActivity::class.java)
         intent.putExtra("stekkie", stekkie)
         intent.putExtra("index", index)
-        startActivityForResult(intent, DETAIL_ACTIVITY)
+        startActivityForResult(intent, util.REQ_DETAIL_ACTIVITY)
     }
 
     /**
@@ -77,21 +78,32 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         //Check if requestCode is the code for createStekkie
-        if (requestCode == CREATE_STEKKIE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == util.REQ_CREATE_STEKKIE && resultCode == Activity.RESULT_OK) {
             //Get stekkie from incomming data, add stekkie to arraylist and notify adapter.
             val newStekkie: StekkieModel = data?.getSerializableExtra("data") as StekkieModel
 
             //TODO Save to DB or Firebase. On result true, add data to arraylist and notify
             modelArray.add(newStekkie)
             stekkieAdapter.notifyItemInserted(modelArray.indexOf(newStekkie))
+            Toast.makeText(this, "Stekkie: " + newStekkie.name + " toegevoegd!", Toast.LENGTH_SHORT).show()
         }
-        if (requestCode == DETAIL_ACTIVITY && resultCode == Activity.RESULT_OK) {
-            if (data?.getStringExtra("action").equals("DELETE")) {
+        if (requestCode == util.REQ_UPDATE_STEKKIE && resultCode == Activity.RESULT_OK) {
+            //Get stekkie from incomming data, add stekkie to arraylist and notify adapter.
+            val newStekkie: StekkieModel = data?.getSerializableExtra("data") as StekkieModel
+
+            //TODO
+
+        }
+
+        if (requestCode == util.REQ_DETAIL_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            if (data?.getIntExtra("action",-1) == util.ACT_DELETE) {
                 val index: Int = data?.getIntExtra("index", -1) as Int
 
                 if ((modelArray.size - 1) >= index) {
+                    val stekkieName: String? = modelArray.get(index).name
                     modelArray.removeAt(index)
                     stekkieAdapter.notifyItemRemoved(index)
+                    Toast.makeText(this, "Stekkie: " + stekkieName + " verwijderd!", Toast.LENGTH_SHORT).show()
                 }
             }
         }

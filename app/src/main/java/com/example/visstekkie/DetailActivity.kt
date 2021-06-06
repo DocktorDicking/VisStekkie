@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 class DetailActivity : AppCompatActivity() {
+    private val util: Util = Util()
     private val TAG = "DetailActivity"
 
     //selected stekkie
@@ -84,30 +85,29 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun editStekkie(view: View) {
-        //Load data into addStekkie layout?
+        returnResult(util.ACT_UPDATE)
     }
 
     /**
      * Deletes a stekkie based on the index of the stekkie.
      */
     fun deleteStekkie(view: View) {
-        fun returnResult() { //nested to reuse
-            val intent = Intent()
-            intent.putExtra("action", "DELETE")
-            intent.putExtra("index", index)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        }
-
         //delete confirmation
         val builder = AlertDialog.Builder(stekkieName.context)
         builder.setTitle("Stekkie vernietigen?")
         builder.setMessage("Je staat op het punt dit stekkie te vernietigen! (verwijderen)\n" +
                 "Weet je zeker dat je dit stekkie wilt verwijderen?")
-        builder.setPositiveButton("Stekkie verwijderen!") { dialog, which -> returnResult() }
+        builder.setPositiveButton("Stekkie verwijderen!") { dialog, which -> returnResult(util.ACT_DELETE) }
         builder.setNegativeButton("Terug") { dialog, which -> dialog.dismiss() }
         builder.show()
     }
 
+    private fun returnResult(action: Int) { //nested to reuse
+        val intent = Intent()
+        intent.putExtra("action", action)
+        intent.putExtra("index", index)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
 
 }
