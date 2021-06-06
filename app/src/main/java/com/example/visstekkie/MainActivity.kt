@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
     private val CREATE_STEKKIE = 123
+    private val DETAIL_ACTIVITY = 111
 
     //Test data
     private val modelArray: ArrayList<StekkieModel> = createTestStekkies()
@@ -59,6 +60,17 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     /**
+     * Will open stekkie details.
+     */
+    override fun onItemClick(index: Int) {
+        val stekkie = modelArray[index]
+        val intent = Intent(this@MainActivity, DetailActivity::class.java)
+        intent.putExtra("stekkie", stekkie)
+        intent.putExtra("index", index)
+        startActivityForResult(intent, DETAIL_ACTIVITY)
+    }
+
+    /**
      * Handles activity results, such as the result for createStekkie method.
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -73,16 +85,16 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             modelArray.add(newStekkie)
             stekkieAdapter.notifyItemInserted(modelArray.indexOf(newStekkie))
         }
-    }
+        if (requestCode == DETAIL_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            if (data?.getStringExtra("action").equals("DELETE")) {
+                val index: Int = data?.getIntExtra("index", -1) as Int
 
-    /**
-     * Will open stekkie details.
-     */
-    override fun onItemClick(position: Int) {
-        val stekkie = modelArray[position]
-        val intent = Intent(this@MainActivity, DetailActivity::class.java)
-        intent.putExtra("stekkie", stekkie)
-        startActivity(intent)
+                if ((modelArray.size - 1) >= index) {
+                    modelArray.removeAt(index)
+                    stekkieAdapter.notifyItemRemoved(index)
+                }
+            }
+        }
     }
 
     /**
