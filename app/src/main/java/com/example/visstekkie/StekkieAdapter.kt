@@ -53,6 +53,10 @@ class StekkieAdapter(
         return modelArraylist.size
     }
 
+    /**
+     * Clear the image loaded by Glide to keep the ram usage low.
+     * This will cause some jitter in the view animation.
+     */
     override fun onViewRecycled(holder: Viewholder) {
         super.onViewRecycled(holder)
         Glide.with(holder.stekkieImg.context).clear(holder.stekkieImg)

@@ -238,8 +238,8 @@ class AddStekkieActivity : AppCompatActivity() {
             builder.setPositiveButton("Stekkie opslaan!") { dialog, which -> returnResult() }
             builder.setNegativeButton("Terug") { dialog, which -> dialog.dismiss() }
             builder.show()
+        } else {
+            returnResult()
         }
-
-        returnResult()
     }
 }
