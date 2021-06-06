@@ -53,6 +53,11 @@ class StekkieAdapter(
         return modelArraylist.size
     }
 
+    override fun onViewRecycled(holder: Viewholder) {
+        super.onViewRecycled(holder)
+        Glide.with(holder.stekkieImg.context).clear(holder.stekkieImg)
+    }
+
     /**
      * Holder class for initializing of the views
      * Also handles the onClick.
