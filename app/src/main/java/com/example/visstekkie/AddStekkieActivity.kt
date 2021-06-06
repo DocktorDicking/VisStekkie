@@ -16,6 +16,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -33,6 +35,9 @@ class AddStekkieActivity : AppCompatActivity() {
     private lateinit var stekkieName: EditText
     private lateinit var stekkieDesc: EditText
 
+    //Options used by Glide when inserting images into the view
+    private lateinit var options: RequestOptions
+
     //Variables used by camera intent
     private val IMAGE_CAPTURE_CODE = 1001
 
@@ -46,6 +51,11 @@ class AddStekkieActivity : AppCompatActivity() {
         stekkieLoc = findViewById(R.id.stekkie_loc)
         stekkieName = findViewById(R.id.stekkie_name)
         stekkieDesc = findViewById(R.id.stekkie_desc)
+
+        options = RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ph150)
+                .error(R.drawable.ph150)
 
         setStekkieLocation()
         Log.d(TAG, "onCreate: has started, location has been set.")
@@ -76,7 +86,7 @@ class AddStekkieActivity : AppCompatActivity() {
         if (savedInstanceState.get("newStekkie") != null) {
             newStekkie = savedInstanceState.get("newStekkie") as StekkieModel
             if (newStekkie.imagePath != null) {
-                stekkieImg.setImageURI(newStekkie.getImagePathUri())
+                Glide.with(stekkieImg.context).load(newStekkie.getImagePathUri()).apply(options).into(stekkieImg)
             }
         }
     }
@@ -180,7 +190,7 @@ class AddStekkieActivity : AppCompatActivity() {
         //called when image was captured from camera intent
         if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK) {
             if (newStekkie.imagePath != null) {
-                stekkieImg.setImageURI(newStekkie.getImagePathUri())
+                Glide.with(stekkieImg.context).load(newStekkie.getImagePathUri()).apply(options).into(stekkieImg)
             }
             //TODO Image in view is sideways >.>
 
