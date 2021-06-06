@@ -6,6 +6,8 @@ import android.widget.TextView
 import android.widget.ImageView
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
 /**
  * Default adapter class for the RecyclesView
@@ -15,9 +17,19 @@ class StekkieAdapter(
         private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<StekkieAdapter.Viewholder>() {
 
+    //Options used by Glide when inserting images into the view
+    private lateinit var options: RequestOptions
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
         //Inflate layout for each item of recycler view.
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.card_layout, parent, false)
+
+        options = RequestOptions()
+            .centerCrop()
+            .placeholder(R.drawable.ph150)
+            .error(R.drawable.ph150)
+            .override(100,100)
+
         return Viewholder(view)
     }
 
@@ -30,9 +42,9 @@ class StekkieAdapter(
         holder.stekkieLoc.text = stekkie.getLocationName(holder.stekkieLoc.context) //Get context from TV
 
         if (stekkie.imagePath != null) {
-            holder.stekkieImg.setImageURI(stekkie.getImagePathUri())
+            Glide.with(holder.stekkieImg.context).load(stekkie.getImagePathUri()).apply(options).into(holder.stekkieImg)
         } else {
-            holder.stekkieImg.setImageResource(R.drawable.ph150)
+            Glide.with(holder.stekkieImg.context).load(R.drawable.ph150).apply(options).into(holder.stekkieImg)
         }
     }
 
