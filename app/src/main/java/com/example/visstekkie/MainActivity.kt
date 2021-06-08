@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
      */
     fun createStekkie(view: View) {
         val intent = Intent(this@MainActivity, AddStekkieActivity::class.java)
-        intent.putExtra("requestCode", util.REQ_CREATE_STEKKIE)
+        intent.putExtra("action", util.ACT_CREATE)
         startActivityForResult(intent, util.REQ_CREATE_STEKKIE)
     }
 
@@ -82,7 +82,9 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             //Get stekkie from incomming data, add stekkie to arraylist and notify adapter.
             val newStekkie: StekkieModel = data?.getSerializableExtra("data") as StekkieModel
 
-            //TODO Save to DB or Firebase. On result true, add data to arraylist and notify
+            //TODO
+            //sync with database
+
             modelArray.add(newStekkie)
             stekkieAdapter.notifyItemInserted(modelArray.indexOf(newStekkie))
             Toast.makeText(this, "Stekkie: " + newStekkie.name + " toegevoegd!", Toast.LENGTH_SHORT).show()
@@ -90,6 +92,12 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         if (requestCode == util.REQ_UPDATE_STEKKIE && resultCode == Activity.RESULT_OK) {
             //Get stekkie from incomming data, add stekkie to arraylist and notify adapter.
             val newStekkie: StekkieModel = data?.getSerializableExtra("data") as StekkieModel
+            val index = data.getIntExtra("index", -1)
+            modelArray[index] = newStekkie
+            stekkieAdapter.notifyDataSetChanged()
+
+            //use index to replace existing stekkie
+            //sync with database.
 
             //TODO
 
@@ -104,6 +112,22 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
                     modelArray.removeAt(index)
                     stekkieAdapter.notifyItemRemoved(index)
                     Toast.makeText(this, "Stekkie: " + stekkieName + " verwijderd!", Toast.LENGTH_SHORT).show()
+                    //TODO
+                    //sync with database
+                }
+            }
+            if (data?.getIntExtra("action",-1) == util.ACT_UPDATE) {
+                val index = data.getIntExtra("index",-1)
+
+                if (index >= 0) {
+                    val intent = Intent(this@MainActivity, AddStekkieActivity::class.java)
+                    intent.putExtra("action", util.ACT_UPDATE)
+                    intent.putExtra("index", index)
+                    intent.putExtra("data", modelArray[index])
+                    startActivityForResult(intent, util.REQ_UPDATE_STEKKIE)
+                } else {
+                    Toast.makeText(this, "Er is iets fout gegaan, stekkie kan niet " +
+                            "worden geupdate. \n (INDEX > 0)", Toast.LENGTH_SHORT).show()
                 }
             }
         }

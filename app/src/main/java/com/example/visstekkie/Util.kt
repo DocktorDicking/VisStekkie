@@ -10,6 +10,7 @@ class Util {
 
     val ACT_DELETE = 999
     val ACT_UPDATE = 201
+    val ACT_CREATE = 100
 
     /**
      * Checks if device haves an active internet connection by looking into activeNetwork.

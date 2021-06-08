@@ -29,6 +29,7 @@ class AddStekkieActivity : AppCompatActivity() {
 
     //new model
     private var newStekkie = StekkieModel(null, null, null, 0.0, 0.0)
+    private var index = -1
 
     //Views in the layout
     private lateinit var stekkieLoc: TextView
@@ -53,14 +54,15 @@ class AddStekkieActivity : AppCompatActivity() {
         stekkieName = findViewById(R.id.stekkie_name)
         stekkieDesc = findViewById(R.id.stekkie_desc)
 
+        //our default Glide options
         options = RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.ph150)
                 .error(R.drawable.ph150)
 
-        when (intent.getIntExtra("requestCode", util.REQ_CREATE_STEKKIE)) {
-            util.REQ_CREATE_STEKKIE -> setStekkieLocation()
-            util.REQ_UPDATE_STEKKIE -> loadStekkie()
+        when (intent.getIntExtra("action", util.ACT_CREATE)) {
+            util.ACT_CREATE -> setStekkieLocation()
+            util.ACT_UPDATE -> loadStekkie()
         }
     }
 
@@ -128,6 +130,8 @@ class AddStekkieActivity : AppCompatActivity() {
      */
     private fun loadStekkie() {
         newStekkie = intent.getSerializableExtra("data") as StekkieModel
+        index = intent.getIntExtra("index", -1)
+
         stekkieName.setText(newStekkie.name)
         stekkieDesc.setText(newStekkie.description)
         stekkieLoc.text = newStekkie.getLocationName(stekkieLoc.context)
@@ -139,13 +143,15 @@ class AddStekkieActivity : AppCompatActivity() {
      * Dialog to update location when this intent get's opened with resultCode UPDATE_STEKKIE
      */
     private fun updateStekkieLocation() {
-        //check if all values have been set, show confirmation when this is not the case (y/n)
+        //Show dialog to update current location.
         val builder = AlertDialog.Builder(stekkieName.context)
         builder.setTitle("Locatie bijwerken?")
         builder.setMessage("Wil je de locatie van je stekkie bijwerken naar jou huidige locatie?")
         builder.setPositiveButton("Locatie bijwerken") { dialog, which -> setStekkieLocation()}
-        builder.setNegativeButton("Terug") { dialog, which -> dialog.dismiss() }
+        builder.setNegativeButton("Nee") { dialog, which -> dialog.dismiss() }
         builder.show()
+
+        //TODO Shows 2 times when updating (after picture) need to fix this by setting a flag in onSaved / onRestore
     }
 
     private fun setLayoutImage() {
@@ -233,9 +239,11 @@ class AddStekkieActivity : AppCompatActivity() {
      * Creates a new StekkieModel and adds the data from addStekkieActivity to the model.
      */
     fun createStekkie(view: View) {
+        //TODO delete old image when updating and image has changed?!
         fun returnResult() { //nested to reuse
             val intent = Intent()
             intent.putExtra("data", newStekkie)
+            intent.putExtra("index", index)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
