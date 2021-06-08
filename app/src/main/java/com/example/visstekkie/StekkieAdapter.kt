@@ -62,6 +62,12 @@ class StekkieAdapter(
         Glide.with(holder.stekkieImg.context).clear(holder.stekkieImg)
     }
 
+    fun updateData(newModelArraylist: ArrayList<StekkieModel>): StekkieAdapter {
+        modelArraylist = ArrayList()
+        modelArraylist.addAll(newModelArraylist)
+        return this
+    }
+
     /**
      * Holder class for initializing of the views
      * Also handles the onClick.

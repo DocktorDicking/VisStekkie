@@ -84,6 +84,9 @@ class DetailActivity : AppCompatActivity() {
         finish()
     }
 
+    /**
+     * PT function. Will trigger the app to open the addActivity result and load the existing model.
+     */
     fun editStekkie(view: View) {
         returnResult(util.ACT_UPDATE)
     }
@@ -92,6 +95,8 @@ class DetailActivity : AppCompatActivity() {
      * Deletes a stekkie based on the index of the stekkie.
      */
     fun deleteStekkie(view: View) {
+        //TODO delete image file on local storage to clear space.
+
         //delete confirmation
         val builder = AlertDialog.Builder(stekkieName.context)
         builder.setTitle("Stekkie vernietigen?")

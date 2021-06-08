@@ -14,17 +14,20 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
     private val util: Util = Util()
-
-    //Test data
-    private val modelArray: ArrayList<StekkieModel> = createTestStekkies()
+    private lateinit var dbHandler: DbHandler
+    private lateinit var modelArray: ArrayList<StekkieModel>
 
     //Init the stekkie adapter to populate the recyclerview
-    private val stekkieAdapter = StekkieAdapter(modelArray, this)
+    private lateinit var stekkieAdapter: StekkieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val stekkieRv: RecyclerView = findViewById(R.id.stekkie_rv)
+
+        dbHandler = DbHandler(this, null, null, 1)
+        modelArray = dbHandler.getStekkies()
+        stekkieAdapter = StekkieAdapter(modelArray, this)
 
         //Creating a default layout manager for the recyclerview
         val llm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -82,25 +85,18 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             //Get stekkie from incomming data, add stekkie to arraylist and notify adapter.
             val newStekkie: StekkieModel = data?.getSerializableExtra("data") as StekkieModel
 
-            //TODO
-            //sync with database
-
-            modelArray.add(newStekkie)
-            stekkieAdapter.notifyItemInserted(modelArray.indexOf(newStekkie))
+            dbHandler.addStekkie(newStekkie)
+            modelArray = dbHandler.getStekkies() //TODO Do we want to 'sync' like this?
+            stekkieAdapter.updateData(modelArray).notifyDataSetChanged()
             Toast.makeText(this, "Stekkie: " + newStekkie.name + " toegevoegd!", Toast.LENGTH_SHORT).show()
         }
         if (requestCode == util.REQ_UPDATE_STEKKIE && resultCode == Activity.RESULT_OK) {
             //Get stekkie from incomming data, add stekkie to arraylist and notify adapter.
             val newStekkie: StekkieModel = data?.getSerializableExtra("data") as StekkieModel
             val index = data.getIntExtra("index", -1)
-            modelArray[index] = newStekkie
-            stekkieAdapter.notifyDataSetChanged()
-
-            //use index to replace existing stekkie
-            //sync with database.
-
-            //TODO
-
+            dbHandler.updateStekkie(newStekkie)
+            modelArray = dbHandler.getStekkies()
+            stekkieAdapter.updateData(modelArray).notifyDataSetChanged()
         }
 
         if (requestCode == util.REQ_DETAIL_ACTIVITY && resultCode == Activity.RESULT_OK) {
@@ -108,12 +104,16 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
                 val index: Int = data?.getIntExtra("index", -1) as Int
 
                 if ((modelArray.size - 1) >= index) {
-                    val stekkieName: String? = modelArray.get(index).name
-                    modelArray.removeAt(index)
-                    stekkieAdapter.notifyItemRemoved(index)
-                    Toast.makeText(this, "Stekkie: " + stekkieName + " verwijderd!", Toast.LENGTH_SHORT).show()
-                    //TODO
-                    //sync with database
+                    val stekkie = modelArray[index]
+                    val toastText = "Stekkie: " + stekkie.name + " verwijderd!"
+
+                    if (dbHandler.deleteStekkie(stekkie.id)) {
+                        modelArray = dbHandler.getStekkies()
+                        stekkieAdapter.updateData(modelArray).notifyDataSetChanged()
+                        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Stekkie ${stekkie.name} kon niet verwijderd worden.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             if (data?.getIntExtra("action",-1) == util.ACT_UPDATE) {
