@@ -7,6 +7,9 @@ import android.net.Uri
 import java.io.File
 import java.io.Serializable
 
+/**
+ * Datamodel for Stekkie
+ */
 class StekkieModel : Serializable
 {
     var id: Int = 0
@@ -16,6 +19,9 @@ class StekkieModel : Serializable
     var latitude: Double = 0.0
     var longitude: Double = 0.0
 
+    /**
+     * Used by database handler.
+     */
     constructor(id: Int, name: String?, description: String?, imagePath: String?, latitude: Double, longitude: Double) {
         this.id = id
         this.name = name
@@ -25,6 +31,9 @@ class StekkieModel : Serializable
         this.longitude = longitude
     }
 
+    /**
+     * Used by app logic when creating new stekkie objects.
+     */
     constructor(name: String?, description: String?, imagePath: String?, latitude: Double, longitude: Double) {
         this.name = name
         this.description = description

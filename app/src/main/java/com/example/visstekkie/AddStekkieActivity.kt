@@ -184,7 +184,6 @@ class AddStekkieActivity : AppCompatActivity() {
         }
     }
 
-
     /**
      * Activates the intent to create a picture which also calls for functions to
      * set the image to the ImageView.

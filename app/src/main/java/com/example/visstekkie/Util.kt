@@ -3,6 +3,9 @@ package com.example.visstekkie
 import android.content.Context
 import android.net.ConnectivityManager
 
+/**
+ * Util class which hold all the 'global' variables and util methods.
+ */
 class Util {
     val REQ_CREATE_STEKKIE = 123
     val REQ_UPDATE_STEKKIE = 321

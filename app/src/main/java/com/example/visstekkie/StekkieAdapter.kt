@@ -24,6 +24,7 @@ class StekkieAdapter(
         //Inflate layout for each item of recycler view.
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.card_layout, parent, false)
 
+        //Default Glide options
         options = RequestOptions()
             .centerCrop()
             .placeholder(R.drawable.ph150)
@@ -55,13 +56,17 @@ class StekkieAdapter(
 
     /**
      * Clear the image loaded by Glide to keep the ram usage low.
-     * This will cause some jitter in the view animation.
+     * This can cause some jitter in the view animation.
      */
     override fun onViewRecycled(holder: Viewholder) {
         super.onViewRecycled(holder)
         Glide.with(holder.stekkieImg.context).clear(holder.stekkieImg)
     }
 
+    /**
+     * Updates the modelArraylist of this class with the given ArrayList.
+     * Returns this so we can chain this method.
+     */
     fun updateData(newModelArraylist: ArrayList<StekkieModel>): StekkieAdapter {
         modelArraylist = ArrayList()
         modelArraylist.addAll(newModelArraylist)

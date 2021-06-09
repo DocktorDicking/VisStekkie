@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         setContentView(R.layout.activity_main)
         val stekkieRv: RecyclerView = findViewById(R.id.stekkie_rv)
 
+        //Init
         dbHandler = DbHandler(this, null, null, 1)
         modelArray = dbHandler.getStekkies()
         stekkieAdapter = StekkieAdapter(modelArray, this)
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         stekkieRv.layoutManager = llm
         stekkieRv.adapter = stekkieAdapter
 
-        //TODO test if this goes well on diffrent SDK versions. (Emulator)
+        //Check for all needed permissions.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 111)
         }
@@ -86,19 +87,17 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             val newStekkie: StekkieModel = data?.getSerializableExtra("data") as StekkieModel
 
             dbHandler.addStekkie(newStekkie)
-            modelArray = dbHandler.getStekkies() //TODO Do we want to 'sync' like this?
+            modelArray = dbHandler.getStekkies()
             stekkieAdapter.updateData(modelArray).notifyDataSetChanged()
             Toast.makeText(this, "Stekkie: " + newStekkie.name + " toegevoegd!", Toast.LENGTH_SHORT).show()
         }
         if (requestCode == util.REQ_UPDATE_STEKKIE && resultCode == Activity.RESULT_OK) {
             //Get stekkie from incomming data, add stekkie to arraylist and notify adapter.
             val newStekkie: StekkieModel = data?.getSerializableExtra("data") as StekkieModel
-            val index = data.getIntExtra("index", -1)
             dbHandler.updateStekkie(newStekkie)
             modelArray = dbHandler.getStekkies()
             stekkieAdapter.updateData(modelArray).notifyDataSetChanged()
         }
-
         if (requestCode == util.REQ_DETAIL_ACTIVITY && resultCode == Activity.RESULT_OK) {
             if (data?.getIntExtra("action",-1) == util.ACT_DELETE) {
                 val index: Int = data?.getIntExtra("index", -1) as Int
@@ -134,7 +133,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     /**
-     * Test stekkies
+     * Test method to create test stekkies
      */
     fun createTestStekkies(): ArrayList<StekkieModel> {
         //TODO Fetch stekkies from firebase or something else that haves stekkies...

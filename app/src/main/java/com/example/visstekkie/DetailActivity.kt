@@ -95,9 +95,7 @@ class DetailActivity : AppCompatActivity() {
      * Deletes a stekkie based on the index of the stekkie.
      */
     fun deleteStekkie(view: View) {
-        //TODO delete image file on local storage to clear space.
-
-        //delete confirmation
+        //Delete confirmation window.
         val builder = AlertDialog.Builder(stekkieName.context)
         builder.setTitle("Stekkie vernietigen?")
         builder.setMessage("Je staat op het punt dit stekkie te vernietigen! (verwijderen)\n" +
@@ -107,6 +105,9 @@ class DetailActivity : AppCompatActivity() {
         builder.show()
     }
 
+    /**
+     * Returns the result of this activity to the previous activity.
+     */
     private fun returnResult(action: Int) { //nested to reuse
         val intent = Intent()
         intent.putExtra("action", action)

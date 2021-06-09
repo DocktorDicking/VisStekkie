@@ -2,17 +2,17 @@
     <string name="app_name">VisStekkie</string>
     <string name="stekkie_naam">Stekkie naam</string>
     <string name="stekkie_omschrijving">Stekkie omschrijving</string>
-    <string name="stekkie_toevoegen">Stekkie toevoegen</string>
+    <string name="stekkie_toevoegen">Stekkie registreren</string>
     <string name="stekkie_verwijderen">Stekkie verwijderen</string>
     <string name="sluiten">Sluiten</string>
-    <string name="aanpassen">Aanpassen</string>
-    <string name="verwijderen">Verwijderen</string>
-    <string name="edit">edit</string>
-    <string name="delete">delete</string>
+    <string name="aanpassen">Update</string>
+    <string name="verwijderen">Delete</string>
+    <string name="edit">Update</string>
+    <string name="delete">Delete</string>
     <string name="stekkie_locatie">Stekkie Locatie</string>
-    <string name="nieuw_stekkie_toevoegen">Nieuw stekkie toevoegen</string>
+    <string name="nieuw_stekkie_toevoegen">Aanmaken</string>
     <string name="naam">Naam</string>
     <string name="omschrijving">Omschrijving</string>
-    <string name="foto_toevoegen">Foto toevoegen</string>
-    <string name="opslaan">opslaan</string>
+    <string name="foto_toevoegen">Foto maken</string>
+    <string name="opslaan">Opslaan</string>
 </resources>
